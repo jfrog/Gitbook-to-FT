@@ -1,0 +1,44 @@
+name: GitBook to Fluid Topics Converter
+description: Analyze and convert GitBook repository content to Fluid Topics using Python.
+
+inputs:
+  repo_url:
+    description: The URL of the repository to analyze.
+    required: true
+    type: string
+  branch:
+    description: The branch to clone and analyze (default: main).
+    required: false
+    type: string
+
+runs:
+  using: "composite"
+  steps:
+    # Step 1: Clone the target (public) repository
+    - name: Checkout target repository
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ inputs.repo_url }}
+        ref: ${{ inputs.branch || 'main' }}
+        path: public-repo
+
+    # Step 2: Set environment variables for the Python utility
+    - name: Set environment variables
+      env:
+        GITBOOK_REPO_URL: ${{ inputs.repo_url }}
+        GITBOOK_REPO_FOLDER: public-repo
+        FLUID_TOPICS_API_KEY: ${{ secrets.FLUID_TOPICS_API_KEY }}
+        FLUID_TOPICS_BASE_URL: ${{ secrets.FLUID_TOPICS_BASE_URL }}
+        FLUID_TOPICS_SOURCE_ID: ${{ secrets.FLUID_TOPICS_SOURCE_ID }}
+        PUBLICATION_TITLE: ${{ secrets.PUBLICATION_TITLE }}
+      run: echo "Environment variables set."
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+      working-directory: .
+
+    # Step 4: Run the Python migration utility
+    - name: Run migration utility
+      run: python main.py
+      working-directory: .
