@@ -42,7 +42,7 @@ def main():
     
     # Upload to Fluid Topics
     ft_client = FluidTopicsClient(config['fluid_topics'])
-    ft_client.upload(zip_file)
+    return ft_client.upload(zip_file)
 
 if __name__ == "__main__":
     main()
