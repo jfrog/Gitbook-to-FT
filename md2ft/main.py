@@ -13,7 +13,7 @@ def main():
         raise EnvironmentError("Please set the PUBLICATION_TITLE environment variable.")
 
     # Ensure Summary.md exists
-    summary_path = os.path.join(input_folder, "Summary.md")
+    summary_path = os.path.join(input_folder, "SUMMARY.md")
     if not os.path.exists(summary_path):
         raise FileNotFoundError(f"Summary.md not found in {input_folder}")
 
