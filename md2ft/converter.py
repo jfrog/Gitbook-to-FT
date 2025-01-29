@@ -28,7 +28,7 @@ def parse_summary_to_hierarchy(summary_lines, base_folder):
         line_content = line.strip().lstrip("*").strip()
         if "[" in line_content and "]" in line_content and "(" in line_content and ")" in line_content:
             name = line_content.split("]")[0].lstrip("[")
-            filepath = line_content.split("(")[1].rstrip(")")
+            filepath = line_content.split("(", 1)[1].strip(">)< ")
 
             # Rename README.md to _README.md in filepath
             if os.path.basename(filepath).lower() == "readme.md":
