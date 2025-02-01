@@ -1,5 +1,5 @@
 import os
-from converter import generate_toc_yaml, create_zip_file
+from converter import generate_toc_yaml, create_zip_file, fix_relative_images_in_markdown
 
 
 def main():
@@ -21,7 +21,11 @@ def main():
     toc_path = generate_toc_yaml(input_folder, summary_path, publication_title)
     print(f"Generated toc.yml at {toc_path}")
 
-    # Step 2: Create a ZIP file
+    # Step 2: Fix images in Markdown
+    fix_relative_images_in_markdown(input_folder)
+    print(f"Successfuly fixed relative images issue.")
+
+    # Step 3: Create a ZIP file
     zip_path = create_zip_file(input_folder)
     print(f"Created ZIP file at {zip_path}")
 
