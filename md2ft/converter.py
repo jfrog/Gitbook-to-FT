@@ -370,3 +370,73 @@ def rename_space_to_dash(relative_path):
     shutil.copy2(relative_path, relative_path.replace(" ","-"))
     return relative_path.replace(" ","-")
 
+
+
+def fix_header_2_3(input_folder: str):
+    toc_file = os.path.join(input_folder, "toc.yml")
+
+    # Load TOC to get Markdown file paths
+    with open(toc_file, "r") as toc:
+        toc_data = yaml.safe_load(toc)
+
+    # Flatten all Markdown file paths from toc.yml
+    def extract_paths(entries):
+        paths = []
+        for entry in entries:
+            path = entry.get("filepath")
+            if path and path.endswith(".md"):
+                paths.append(os.path.join(input_folder, path))
+            if "children" in entry:
+                paths.extend(extract_paths(entry["children"]))
+        return paths
+
+    md_files = extract_paths(toc_data.get("toc", []))
+
+    for md_file in md_files:
+        with open(md_file, 'r', encoding="utf-8") as file:
+            content = file.read()
+
+        # Apply replace_headings_with_bold to modify H2 and H3 headers
+        # updated_content = replace_headings_with_bold(content)
+        updated_content = convert_headers_to_inline_styles(content)
+
+        # Save the modified content back to the file
+        with open(md_file, 'w', encoding="utf-8") as file:
+            file.write(updated_content)
+
+
+# def replace_headings_with_bold(input_text):
+#     # Match any heading from H2 (##) onwards, but only add bold formatting if not already bolded
+#     input_text = re.sub(r'^(#{2,6}\s*)(\*\*)?(.*?)(\*\*)?$', r'\1**\3**', input_text, flags=re.MULTILINE)
+#     return input_text
+
+    ##########################################################
+    # # Replace H2 (##) with bolded title, keeping the level same
+    # input_text = re.sub(r'^(##\s*)(.+)', r'## **\2**', input_text, flags=re.MULTILINE)
+    # # Replace H3 (###) with bolded title, keeping the level same
+    # input_text = re.sub(r'^(###\s*)(.+)', r'### **\2**', input_text, flags=re.MULTILINE)
+    # # Replace H4 (####) with bolded title, keeping the level same
+    # input_text = re.sub(r'^(####\s*)(.+)', r'#### **\2**', input_text, flags=re.MULTILINE)
+    # # You can continue for H5 and H6 if needed
+    #return input_text
+    ##########################################################
+
+# Define full styles for each header level based on provided CSS
+header_styles = {
+    1: "font-size: 2.1em; font-weight: 600; font-family: 'Open Sans', sans-serif; text-align: center; color: #414857;",
+    2: "font-size: 1.7em; font-weight: 600; font-family: 'Open Sans', sans-serif; padding-top: 3px; padding-bottom: 3px; text-decoration: none; color: #414857;",
+    3: "font-size: 1.4em; font-weight: 600; font-family: 'Open Sans', sans-serif; padding-top: 3px; padding-bottom: 3px; text-decoration: none; color: #414857;",
+    4: "font-size: 1.3em; font-weight: 600; font-family: 'Open Sans', sans-serif; padding-top: 3px; color: #414857;",
+    5: "font-size: 1.2em; font-weight: 600; font-family: 'Open Sans', sans-serif; padding-top: 3px; color: #414857;",
+    6: "font-size: 1.1em; font-weight: 600; font-family: 'Open Sans', sans-serif; padding-top: 3px; color: #414857;",
+}
+
+def convert_headers_to_inline_styles(content):
+    def replace_heading(match):
+        level = len(match.group(1))  # Determine header level based on number of '#'
+        text = match.group(2).strip('* ')  # Remove extra spaces and asterisks (bold markers)
+        style = header_styles.get(level, "font-size: 1.2em; font-weight: 600; font-family: 'Open Sans', sans-serif; color: #414857;")  
+        return f'<span style="{style}">{text}</span>'
+
+    # Regex pattern to match Markdown headers (##, ###, ####, etc.)
+    return re.sub(r'^(#{2,6})\s*\*?(.*?)\*?$', replace_heading, content, flags=re.MULTILINE)
