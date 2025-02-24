@@ -1,5 +1,5 @@
 import os
-from converter import generate_toc_yaml, create_zip_file, fix_relative_images_in_markdown
+from converter import generate_toc_yaml, create_zip_file, fix_relative_images_in_markdown, fix_header_2_3
 
 
 def main():
