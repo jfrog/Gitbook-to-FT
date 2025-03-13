@@ -26,8 +26,8 @@ def main():
     print(f"Successfuly fixed relative images issue.")
 
     # # Step 3: Fix H2, H3 images in Markdown
-    #fix_header_2_3(input_folder)
-    #print(f"Successfuly fixed headers.")
+    fix_header_2_3(input_folder)
+    print(f"Successfuly fixed headers.")
 
     # Step 3: Create a ZIP file
     zip_path = create_zip_file(input_folder)
