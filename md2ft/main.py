@@ -1,5 +1,5 @@
 import os
-from converter import generate_toc_yaml, create_zip_file, fix_relative_images_in_markdown, fix_header_2_3
+from converter import generate_toc_yaml, create_zip_file, fix_relative_images_in_markdown, fix_header_2_3_and_newline_backslash
 
 
 def main():
@@ -26,7 +26,7 @@ def main():
     print(f"Successfuly fixed relative images issue.")
 
     # # Step 3: Fix H2, H3 images in Markdown
-    fix_header_2_3(input_folder)
+    fix_header_2_3_and_newline_backslash(input_folder)
     print(f"Successfuly fixed headers.")
 
     # Step 3: Create a ZIP file
