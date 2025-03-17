@@ -372,7 +372,7 @@ def rename_space_to_dash(relative_path):
 
 
 
-def fix_header_2_3(input_folder: str):
+def fix_header_2_3_and_newline_backslash(input_folder: str):
     toc_file = os.path.join(input_folder, "toc.yml")
 
     # Load TOC to get Markdown file paths
@@ -399,6 +399,7 @@ def fix_header_2_3(input_folder: str):
         # Apply replace_headings_with_bold to modify H2 and H3 headers
         # updated_content = replace_headings_with_bold(content)
         updated_content = convert_headers_to_inline_styles(content)
+        updated_content = convert_gitbook_to_standard_markdown_newline(updated_content)
 
         # Save the modified content back to the file
         with open(md_file, 'w', encoding="utf-8") as file:
@@ -440,3 +441,8 @@ def convert_headers_to_inline_styles(content):
 
     # Regex pattern to match Markdown headers (##, ###, ####, etc.)
     return re.sub(r'^(#{2,6})\s*\*?(.*?)\*?$', replace_heading, content, flags=re.MULTILINE)
+
+def convert_gitbook_to_standard_markdown_newline(text):
+    # Replace backslashes at end of lines with two spaces
+    converted_text = re.sub(r'\\\n', '  \n', text)
+    return converted_text
