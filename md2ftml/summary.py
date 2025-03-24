@@ -14,7 +14,7 @@ def create_xml_node(ft_publication_title, title, href, children=None):
     safe_ft_publication_title = ft_publication_title.replace(" ", "-").lower()
     safe_href = href[:-3].replace(" ", "-").replace("README","").lower()  # Also replace spaces in href if needed
     pretty_url = f"{safe_ft_publication_title}/{safe_href}"
-    ET.SubElement(ft_metas, "ft:meta", key="ft:prettyUrl").text = pretty_url
+    ET.SubElement(ft_metas, "ft:meta", key="topicUrl").text = pretty_url
 
     if children:
         for child in children:
