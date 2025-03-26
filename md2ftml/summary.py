@@ -45,7 +45,7 @@ def convert_to_xml(lines, ft_publication_title):
                                       "xsi:noNamespaceSchemaLocation": "ftmap.xsd",
                                         "ft:lang": "en-US",
                                         "ft:title": ft_publication_title,
-                                        "ft:originID": "0",
+                                        "ft:originID": "jfrog-security-user-guide",
                                         "ft:editorialType": "book"})
     toc_node = ET.Element("ft:toc")
     root_node.append(toc_node)
