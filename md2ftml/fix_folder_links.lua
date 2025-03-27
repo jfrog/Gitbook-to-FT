@@ -95,13 +95,3 @@ function Para(elem)
 end
 
 
-function Link(el)
-  -- Print the URL for debugging
-  -- print("Processing link:", el.target)
-
-  -- If the link starts with "http", leave it unchanged
-  if el.target:match("^https?://") then
-    -- print("  -> Absolute URL (unchanged):", el.target)
-    return el
-  end
-end
