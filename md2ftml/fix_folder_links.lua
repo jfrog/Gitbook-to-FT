@@ -104,7 +104,4 @@ function Link(el)
     -- print("  -> Absolute URL (unchanged):", el.target)
     return el
   end
-
-  -- Return `nil` to allow Pandoc to apply its default behavior
-  return nil
 end
