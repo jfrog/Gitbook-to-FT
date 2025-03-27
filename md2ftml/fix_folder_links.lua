@@ -94,17 +94,17 @@ function Para(elem)
   return elem
 end
 
+
 function Link(el)
   -- Print the URL for debugging
-  --print("Processing link:", el.target)
+  -- print("Processing link:", el.target)
 
   -- If the link starts with "http", leave it unchanged
-  --if el.target:match("^https?://") then
-    --print("  -> Absolute URL (unchanged):", el.target)
-    --return el
-  --end
+  if el.target:match("^https?://") then
+    -- print("  -> Absolute URL (unchanged):", el.target)
+    return el
+  end
 
-  -- Otherwise, modify as needed (or leave it as-is)
-  --print("  -> Relative URL (may be modified):", el.target)
-  return el
+  -- Return `nil` to allow Pandoc to apply its default behavior
+  return nil
 end
