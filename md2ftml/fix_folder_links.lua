@@ -93,3 +93,18 @@ function Para(elem)
   -- If it's not inside a hint block, return it as normal
   return elem
 end
+
+function Link(el)
+  -- Print the URL for debugging
+  --print("Processing link:", el.target)
+
+  -- If the link starts with "http", leave it unchanged
+  --if el.target:match("^https?://") then
+    --print("  -> Absolute URL (unchanged):", el.target)
+    --return el
+  --end
+
+  -- Otherwise, modify as needed (or leave it as-is)
+  --print("  -> Relative URL (may be modified):", el.target)
+  return el
+end
