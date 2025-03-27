@@ -1,9 +1,21 @@
 function Link(el)
-    if not el.target:match("%.%w+$") then
-        -- If the target does not have an extension, append "/README.md"
-        el.target = el.target .. "/README.md"
-        -- print("linked changed!")
+    
+    if el.target:match("^https?://") then
+        -- print("  -> Absolute URL (unchanged):", el.target)
+        return el
     end
+    
+    -- If the target does not have an extension, append "/README.md"
+    if not el.target:match("%.%w+$") then
+        -- Ensure we don’t add double slashes
+        if el.target:sub(-1) == "/" then
+            el.target = el.target .. "README.md"
+        else
+            el.target = el.target .. "/README.md"
+        end
+        --print("  -> Modified relative URL:", el.target)
+    end
+    
     return el
 end
 
